@@ -10,22 +10,20 @@ const FILES_TO_CACHE = [
 
 const CACHE_NAME = 'static-cache-v1';
 const DATA_CACHE_NAME = 'data-cache-v1';
-const RUNTIME = 'runtime';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.add('/api/transaction'))
+    caches.open(DATA_CACHE_NAME).then((cache) => cache.add('/api/transaction'))
   );
 
   evt.waitUntil(
-    caches.open(DATA_CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
   );
 
   self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
-  const currentCaches = [CACHE_NAME, RUNTIME];
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
@@ -44,18 +42,21 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('/api')) {
     event.respondWith(
-      caches.match(DATA_CACHE_NAME).then((cachedResponse) => {
-        return fetch(event.request)
-          .then((response) => {
-            if (response.status === 200) {
-              cachedResponse.put(event.request.url, response.clone());
-            }
-            return response;
-          })
-          .catch((err) => {
-            return cache.match(event.request);
-          });
-      })
+      caches
+        .open(DATA_CACHE_NAME)
+        .then((cachedResponse) => {
+          return fetch(event.request)
+            .then((response) => {
+              if (response.status === 200) {
+                cachedResponse.put(event.request.url, response.clone());
+              }
+              return response;
+            })
+            .catch((err) => {
+              return cachedResponse.match(event.request);
+            });
+        })
+        .catch((err) => console.log(err))
     );
     return;
   }

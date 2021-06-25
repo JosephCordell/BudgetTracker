@@ -25,7 +25,6 @@ mongoose
   .then(() => {
     console.log('Connected to database!');
 
-    // routes
     app.use(require('./routes/api.js'));
 
     // Start the API server

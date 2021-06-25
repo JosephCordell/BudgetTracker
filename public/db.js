@@ -20,7 +20,7 @@ request.onerror = (event) => {
 
 const saveRecord = (record) => {
   const transaction = db.transaction(['pending'], 'readwrite');
-  const store = transaction.createObjectStore('pending');
+  const store = transaction.objectStore('pending');
   store.add(record);
 };
 
@@ -37,7 +37,7 @@ const checkDatabase = () => {
         headers: {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
-        }
+        },
       })
         .then((response) => response.json())
         .then(() => {
