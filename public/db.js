@@ -35,9 +35,9 @@ const checkDatabase = () => {
         method: 'POST',
         body: JSON.stringify(getAll.result),
         headers: {
-          Accept: 'Application/json, text/plain, */*',
+          Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
-        },
+        }
       })
         .then((response) => response.json())
         .then(() => {
@@ -49,3 +49,5 @@ const checkDatabase = () => {
     }
   };
 };
+
+window.addEventListener('online', checkDatabase);
