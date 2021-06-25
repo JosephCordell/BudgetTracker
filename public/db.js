@@ -26,8 +26,8 @@ const saveRecord = (record) => {
 
 const checkDatabase = () => {
   const transaction = db.transaction('pending', 'readwrite');
-  const store = transaction.objectStore('pending');
-  const getAll = store.getAll();
+  const pendingStore = transaction.objectStore('pending');
+  const getAll = pendingStore.getAll();
 
   getAll.onsuccess = () => {
     if (getAll.result.length > 0) {
