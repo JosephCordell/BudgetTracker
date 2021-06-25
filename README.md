@@ -36,7 +36,7 @@ A webpage that you can track your personal budget with offline capabilities. Dat
 
 ## 2 Usage
 
-Website link: https://i-sometimes-work-out.herokuapp.com/
+Website link: https://no-internet-budget.herokuapp.com/
 
 Enter the name of the transaction and the transaction amount. You can then add or remove funds to your total. You can store transactions on your local database and it will update the cloud database once you go back online.
 
